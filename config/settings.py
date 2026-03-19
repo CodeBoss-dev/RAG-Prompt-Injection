@@ -27,7 +27,7 @@ class Settings(BaseSettings):
 
     # --- Ollama LLM ---
     ollama_base_url: str = "http://localhost:11434"
-    ollama_model: str = "llama3.2"
+    ollama_model: str = "llama3.1:8b"
 
     # --- Embedding Model ---
     embedding_model_name: str = "BAAI/bge-small-en-v1.5"
