@@ -29,14 +29,14 @@ REQUIRED_FIELDS = {
 
 _CONFLUENCE_TPL = {
     "departments": ["Engineering", "Product"],
-    "channels": ["general", "engineering"],
-    "access_levels": {"public": 0.5, "internal": 0.3, "confidential": 0.2},
+    "topics": ["Onboarding", "Architecture"],
+    "access_levels": ["public", "internal", "confidential"],
     "trust_score_range": [0.7, 0.95],
     "templates": [
         {
-            "topics": ["Onboarding", "Architecture"],
-            "content_sections": [
-                "Overview: {overview_paragraph}\nDetails: {details_paragraph}\nSteps:\n1. {step_1}\n2. {step_2}"
+            "title_template": "{{department}} {{topic}}",
+            "content_templates": [
+                "Overview: {{overview}}\nDetails: {{details}}\nStep: {{step_description}}"
             ],
         }
     ],
@@ -44,40 +44,41 @@ _CONFLUENCE_TPL = {
 
 _SLACK_TPL = {
     "channels": ["general", "engineering"],
-    "access_levels": {"public": 0.5, "internal": 0.5},
+    "access_levels": ["public", "internal"],
     "trust_score_range": [0.4, 0.7],
-    "greetings": ["Hey", "Hi"],
-    "services": ["auth-service"],
-    "environments": ["staging"],
     "templates": [
-        "{greeting}, {question}. {update}"
+        {
+            "message_templates": [
+                "Hey {{user_name}}, can you check {{service_name}} in {{environment}}?"
+            ]
+        }
     ],
 }
 
 _EMAIL_TPL = {
-    "access_levels": {"internal": 0.6, "confidential": 0.4},
+    "access_levels": ["internal", "confidential"],
     "trust_score_range": [0.6, 0.85],
-    "topics": ["Q3 Planning", "Security Update"],
-    "meeting_types": ["standup", "sprint retro"],
     "templates": [
         {
-            "subject_template": "{topic} update — {department}",
-            "body_template": "Dear {recipient},\n\n{opening}\n\n{body_paragraph}\n\n{closing}\n\nBest,\n{sender}",
+            "subject_template": "{{department}} update",
+            "body_templates": [
+                "Dear {{recipient_name}},\n\n{{paragraph}}\n\nBest,\n{{sender_name}}"
+            ],
         }
     ],
 }
 
 _INTERNAL_DOCS_TPL = {
     "doc_types": ["RFC", "Runbook"],
-    "topics": ["Service Mesh", "Caching Strategy"],
-    "services": ["auth-service"],
-    "rfc_statuses": ["approved", "draft"],
-    "access_levels": {"internal": 0.4, "confidential": 0.3, "restricted": 0.3},
+    "access_levels": ["internal", "confidential", "restricted"],
     "trust_score_range": [0.8, 0.98],
     "templates": [
         {
-            "title_template": "{doc_type}: {topic}",
-            "content_template": "# {title}\nAuthor: {author}\nDept: {department}\n\n{intro_paragraph}\n\n{technical_paragraph_1}\n\n{summary_paragraph}",
+            "doc_type": "RFC",
+            "title_template": "RFC: {{service_name}}",
+            "content_templates": [
+                "Author: {{author}}\nDepartment: {{department}}\n\n{{technical_paragraph}}"
+            ],
         }
     ],
 }
