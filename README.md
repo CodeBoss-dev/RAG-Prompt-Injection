@@ -30,26 +30,22 @@ This project builds that threat model end-to-end: a realistic enterprise corpus,
 
 ---
 
-## Results
+## Evaluation
 
-Evaluated across 7 defense configurations (none, each alone, all combined, all minus ML detector):
+The repository supports two distinct evaluation modes:
 
-| Configuration | Overall ASR | FPR | Latency |
-|---|---|---|---|
-| No defenses | 55% | 0.0% | 50s |
-| Chunk Scanner | 25% | 0.0% | 52s |
-| Source Scoring | 35% | 0.0% | 51s |
-| Safety Reranker | 15% | 7.3% | 54s |
-| Privilege Filter | 45% | 0.0% | 50s |
-| **All Combined** | **5%** | **1.8%** | **59s** |
-| All (no ML detector) | 0% | 1.8% | 57s |
+1. **Live evaluation** (`scripts/evaluate.py`) runs the attack and defense
+   configurations against a local Ollama-backed RAG pipeline and calculates
+   attack success rate, false-positive rate, retrieval quality, and latency
+   from the resulting executions.
+2. **Seeded simulation** (`scripts/simulate_evaluation.py`) exercises the
+   reporting and visualization pipeline with generated fixture data. Its
+   values are illustrative and must not be interpreted as measured model
+   performance.
 
-**Key findings:**
-- Phishing attacks succeed 100% without defenses (LLM faithfully echoes embedded URLs)
-- Privilege escalation drops to 0% with the privilege filter alone — cleanest single-defense win
-- Combined defenses reduce ASR from 55% → 5% with only 1.18× latency overhead
-- `safety_reranker` standalone has 7.3% FPR — too aggressive alone, but well-behaved in combination
-- Modern aligned LLMs resist explicit `IGNORE PREVIOUS INSTRUCTIONS` injections; semantic/misinformation attacks are more effective
+The repository does not currently publish a verified live benchmark artifact.
+Run the live evaluation in a controlled environment and preserve the raw
+results before making quantitative performance claims.
 
 ---
 
@@ -86,7 +82,7 @@ RAG_Prompt_Injection/
 │   ├── run_attacks.py          # Run attack suite
 │   ├── train_detector.py       # Train DistilBERT detector
 │   ├── evaluate.py             # Full evaluation (requires live Ollama)
-│   └── simulate_evaluation.py  # Fast evaluation with seeded simulation
+│   └── simulate_evaluation.py  # Reporting demo with seeded fixture data
 ├── notebooks/                  # Demo walkthroughs (01–04)
 └── tests/                      # 63 unit tests, no external deps required
 ```
