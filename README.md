@@ -1,7 +1,5 @@
 # RAG Prompt Injection
 
-[![CI](https://github.com/CodeBoss-dev/RAG-Prompt-Injection/actions/workflows/ci.yml/badge.svg)](https://github.com/CodeBoss-dev/RAG-Prompt-Injection/actions/workflows/ci.yml)
-
 A research project demonstrating **indirect prompt injection attacks** on enterprise RAG (Retrieval-Augmented Generation) systems — and how to defend against them.
 
 Enterprise AI copilots that search over internal documents (Slack, Confluence, emails, wikis) are increasingly deployed but carry a critical unseen risk: an attacker with write access can plant malicious instructions inside shared documents. When the RAG pipeline retrieves those documents, the LLM reads the embedded instructions and follows them — leaking secrets, spreading misinformation, generating phishing content, or disclosing restricted data to unauthorized users.
